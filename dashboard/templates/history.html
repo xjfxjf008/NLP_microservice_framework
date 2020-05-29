@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Jianfei Xue, and Bootstrap contributors">
+    <title>Index</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sign-in/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <!-- Favicons -->
+    <meta name="theme-color" content="#563d7c">
+
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="/static/css/history.css" rel="stylesheet">
+</head>
+<body class="text-top">
+    <div class="container">
+        <h2>Email Query History</h2>
+        <br>
+        <br>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">User Id</th>
+                    <th scope="col">Email Text</th>
+                    <th scope="col">NLP Score</th>
+                    <th scope="col">Label</th>
+                    <th scope="col">Date Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in items %}
+                <tr>
+                    <th scope="row">{{t['user_id']}}</th>
+                    <td>{{t['text']}}</td>
+                    <td>{{t['score']}}</td>
+                    {% if t['label']=='positive' %}
+                        <td class="text-danger">{{t['label']}}</td>
+                    {% else %}
+                        <td class="text-success">{{t['label']}}</td>
+                    {% endif %}
+                    <td>{{t['datetime']}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="mt-5 mb-3 text-muted">* For simplicity, all the data are dummy data in the table.</p>
+        <form class="form-signin" action="/" method="get">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Home</button>
+        </form>
+        <form class="form-signin" action="/history" method="post">
+            <button class="btn btn-lg btn-danger btn-block" type="submit">Reset Database</button>
+        </form>
+    </div>
+</body>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Jianfei Xue, and Bootstrap contributors">
+    <title>Index</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sign-in/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <!-- Favicons -->
+    <meta name="theme-color" content="#563d7c">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="/static/css/signin.css" rel="stylesheet">
+</head>
+
+<body class="text-center">
+    <div class="container">
+        <form class="form-signin" action="/" method="post">
+
+            <h1 class="h3 mb-3 font-weight-normal">User ID</h1>
+            <input id="user_id" class="form-control" name="user_id" value="{{user_id}}" placeholder="Please input your user id.">
+
+            <br>
+
+            <h1 class="h3 mb-3 font-weight-normal">Email Text</h1>
+            <textarea class="form-control" rows="4" id="email_text" name="email_text" placeholder="Please input your email text.">{{email_text}}</textarea>
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Predict</button>
+            <br>
+            <h1 class="h3 mb-3 font-weight-normal">Label</h1>
+            <input id="inputID" class="form-control" readonly="readonly" name="label" value="{{label}}">
+            <br>
+            <h1 class="h3 mb-3 font-weight-normal">Score</h1>
+            <input id="inputID" class="form-control" readonly="readonly" name="score" value="{{score}}">
+            
+        </form>
+
+        <form class="form-signin" action="/history" method="get">
+            <button class="btn btn-lg btn-success btn-block" type="submit">History</button>
+        </form>
+        <p class="mt-5 mb-3 text-muted">Copyright &copy; PwC. All right reserves.  PwC refers to the PwC network and/or one or more of its member firms, each of which is a separate legal entity. </p>
+    </div>
+</body>
