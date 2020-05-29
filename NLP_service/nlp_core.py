@@ -1,5 +1,4 @@
 import numpy as np
-import fasttext
 import time
 
 def nlp_predict(text: str, threshold=0.5):

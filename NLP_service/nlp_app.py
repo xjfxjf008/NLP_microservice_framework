@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from pymongo import MongoClient
 import uvicorn
 
-app = FastAPI(title='NLP microservice', version=0.2)
+app = FastAPI(title='NLP microservice', version=0.5)
 
 ## init database
 nlp_col = db_process.init_db()
@@ -37,4 +37,4 @@ async def predict(input_text: InputText):
     
 
 if __name__ == "__main__":
-    uvicorn.run("nlp_app:app", host="127.0.0.1", port=1234, log_level="info")
+    uvicorn.run("nlp_app:app", host="0.0.0.0", port=1234, log_level="info")

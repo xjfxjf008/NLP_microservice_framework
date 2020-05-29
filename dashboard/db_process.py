@@ -1,9 +1,10 @@
 from pymongo import MongoClient
+import os
 
-DB_HOST = 'localhost'
-DB_PORT = 27017
-DB_NAME = 'test_db'  ## need to be replaced later
-DB_COL_NAME = 'NLP_RESULTS'
+DB_HOST = os.environ.get("DB_HOST")
+DB_PORT = int(os.environ.get("DB_PORT"))
+DB_NAME = os.environ.get("DB_NAME")
+DB_COL_NAME = os.environ.get("DB_COL_NAME")
 
 
 def init_db(db_host=DB_HOST, db_port=DB_PORT, db_name=DB_NAME, col_name=DB_COL_NAME):

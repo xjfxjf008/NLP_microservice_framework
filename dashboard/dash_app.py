@@ -6,14 +6,15 @@ from pydantic import BaseModel
 import uvicorn
 from pymongo import MongoClient
 import requests
+import os
 import json
 import db_process
 
-API_NLP_SERVICE_HOST = 'http://127.0.0.1:1234/predict'
+API_NLP_SERVICE_HOST = os.environ.get("API_NLP_SERVICE_HOST")
 
 app = FastAPI(title='Dashboard', version=1.0)
-app.mount("/static", StaticFiles(directory="dashboard/static"), name="static")
-templates = Jinja2Templates(directory="dashboard/templates")
+app.mount("/static", StaticFiles(directory="./static"), name="static")
+templates = Jinja2Templates(directory="./templates")
 
 ## init database
 nlp_col = db_process.init_db()
@@ -47,4 +48,4 @@ def reset_db(request: Request):
 
 
 if __name__ == "__main__":
-    uvicorn.run("dash_app:app", host="127.0.0.1", port=2234, log_level="info")
+    uvicorn.run("dash_app:app", host="0.0.0.0", port=2234, log_level="info")

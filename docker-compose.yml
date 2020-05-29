@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+    dashboard:
+        image: test_nlp/dash
+        build: ./dashboard
+        ports: 
+            - 2234:2234
+        env_file: 
+            - app.env
+        networks:
+            - nlp_ms_demo_network
+        links:
+            - mongodb:mongodb
+            - nlp:nlp
+        depends_on:
+            - mongodb
+            - nlp
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: on-failure
+        command: "python dash_app.py"
+
+    nlp:
+        image: test_nlp/nlp
+        build: ./NLP_service
+        env_file: 
+            - app.env
+        networks:
+            - nlp_ms_demo_network
+        links:
+            - mongodb:mongodb
+        depends_on:
+            - mongodb
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: on-failure
+        command: "python nlp_app.py"
+
+    mongodb:
+        image: mongo:latest
+        restart: unless-stopped
+        networks:
+            - nlp_ms_demo_network
+        volumes:
+            - ./db:/data/db
+            - ./configdb:/data/configdb
+
+
+networks:
+    nlp_ms_demo_network:
