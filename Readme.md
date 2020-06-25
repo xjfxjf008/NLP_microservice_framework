@@ -82,7 +82,14 @@
     ```
     chmod +x ./k8s-up.sh
     ```
-* **STEP 8**: Uninstall all the service for the `kubernates` cluster, and delete the persistent volume:
+* **STEP 8**: Use port-forwarding to forward `kubernates` service port to your `localhost` port with command:
+    ```
+    kubectl port-forward service/dash-service 2234:2234
+    ```
+    > If you are using remote `ssh` to login to the machine, please also enable the port-forwarding rules when using `ssh`.
+    
+    Then open your web browser to access the service with `http` address `http://localhost:2234`.
+* **STEP 9**: Uninstall all the service for the `kubernates` cluster, and delete the persistent volume:
     ```
     ./k8s-down.sh
     kubectl delete -f ./k8s_create_pv.yaml
