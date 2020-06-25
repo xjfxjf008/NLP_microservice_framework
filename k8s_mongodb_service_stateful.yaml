@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nlp-mongodb
+  labels:
+    db: mongo
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+  selector:
+    db: mongo
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nlp-mongodb
+  labels:
+    db: mongo
+spec:
+  selector:
+    matchLabels:
+      db: mongo
+  serviceName: nlp-mongodb
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        db: mongo
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+      - name: mongodb
+        image: mongo:latest
+        command:
+          - mongod
+          - "--replSet"
+          - rs0
+          - "--smallfiles"
+          - "--noprealloc"
+        ports:
+          - containerPort: 27017
+        volumeMounts:
+          - name: mongo-persistent-storage
+            mountPath: /data/db
+      - name: mongo-sidecar
+        image: cvallance/mongo-k8s-sidecar
+        env:
+          - name: MONGO_SIDECAR_POD_LABELS
+            value: "db=mongo"
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-persistent-storage
+        annotations:
+          volume.beta.kubernetes.io/storage-class: "azurefile"
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 20Gi

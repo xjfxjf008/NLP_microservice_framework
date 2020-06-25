@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dash-service
+  labels:
+    api: dash
+spec:
+  type: NodePort
+  ports:
+  - name: dash-port
+    port: 2234
+    targetPort: 2234
+  selector:
+    api: dash
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: dash-api
+  labels:
+    api: dash
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      api: dash
+  template:
+    metadata:
+      labels:
+        api: dash
+    spec:
+      containers:
+      - image: test_nlp/dash
+        imagePullPolicy: Never
+        name: dash-api
+        env:
+        - name: DB_HOST
+          value: nlp-mongodb
+        - name: DB_PORT
+          value: "27017"
+        - name: DB_NAME
+          value: APP_DB
+        - name: DB_COL_NAME
+          value: NLP_RESULTS
+        - name: API_NLP_SERVICE_HOST
+          value: "http://nlp-service:1234/predict"
+        command: ["python", "dash_app.py"]
+        ports:
+        - containerPort: 2234
+          name: dash-port
+      restartPolicy: Always

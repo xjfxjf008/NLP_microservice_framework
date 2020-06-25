@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nlp-service
+  labels:
+    api: nlp
+spec:
+  type: NodePort
+  ports:
+  - name: nlp-port
+    port: 1234
+    targetPort: 1234
+  selector:
+    api: nlp
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: nlp-api
+  labels:
+    api: nlp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      api: nlp
+  template:
+    metadata:
+      labels:
+        api: nlp
+    spec:
+      containers:
+      - image: test_nlp/nlp
+        imagePullPolicy: Never
+        name: nlp-api
+        env:
+        - name: DB_HOST
+          value: nlp-mongodb
+        - name: DB_PORT
+          value: "27017"
+        - name: DB_NAME
+          value: APP_DB
+        - name: DB_COL_NAME
+          value: NLP_RESULTS  
+        command: ["python", "nlp_app.py"]
+        ports:
+        - containerPort: 1234
+          name: nlp-port
+      restartPolicy: Always
