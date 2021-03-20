@@ -2,4 +2,4 @@ aiofiles == 0.5.0
 python-multipart == 0.0.5
 requests == 2.22.0
 pymongo == 3.10.1
-jinja2 == 2.11.1
+jinja2 == 2.11.3
